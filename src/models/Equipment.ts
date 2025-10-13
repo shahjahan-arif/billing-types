@@ -8,11 +8,10 @@ export interface Equipment {
   name: string;
   serialNumber: string;
   status: EquipmentStatus;
-  assignedTo?: string | null;
-  assignedAt?: Date | null;
-  purchaseDate: Date;
-  purchasePrice: number;
-  notes?: string | null;
+  assignedTo: string | null;
+  purchaseDate: Date | null;
+  warrantyExpiry: Date | null;
+  notes: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,8 +25,8 @@ export interface CreateEquipmentInput {
   type: EquipmentType;
   name: string;
   serialNumber: string;
-  purchaseDate: Date;
-  purchasePrice: number;
+  purchaseDate?: Date;
+  warrantyExpiry?: Date;
   notes?: string;
 }
 
