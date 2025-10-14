@@ -3,3 +3,5 @@ tsconfig.json
 *.log
 .DS_Store
 node_modules/
+.npmrc.local
+.npmrc.publish
