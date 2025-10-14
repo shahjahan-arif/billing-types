@@ -34,6 +34,8 @@ export interface UpdateEquipmentInput {
   name?: string;
   status?: EquipmentStatus;
   notes?: string;
+  purchaseDate?: Date;
+  warrantyExpiry?: Date;
 }
 
 export interface AssignEquipmentInput {

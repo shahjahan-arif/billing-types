@@ -10,4 +10,5 @@ export enum EquipmentStatus {
   ASSIGNED = 'ASSIGNED',
   MAINTENANCE = 'MAINTENANCE',
   DAMAGED = 'DAMAGED',
+  RETIRED = 'RETIRED',
 }

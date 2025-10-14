@@ -7,10 +7,10 @@ export interface Notification {
   title: string;
   message: string;
   channel: NotificationChannel;
-  status: NotificationStatus;
-  sentAt?: Date | null;
-  readAt?: Date | null;
-  metadata?: Record<string, any> | null;
+  data: Record<string, any> | null;
+  isRead: boolean;
+  sentAt: Date | null;
+  readAt: Date | null;
   createdAt: Date;
 }
 
@@ -20,7 +20,7 @@ export interface CreateNotificationInput {
   title: string;
   message: string;
   channel: NotificationChannel;
-  metadata?: Record<string, any>;
+  data?: Record<string, any>;
 }
 
 export interface SendBulkNotificationInput {
@@ -36,7 +36,7 @@ export interface MarkAsReadInput {
 }
 
 export interface NotificationListQuery {
-  status?: NotificationStatus;
+  isRead?: boolean;
   type?: NotificationType;
   page?: number;
   limit?: number;
