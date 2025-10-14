@@ -8,6 +8,7 @@ export interface User {
   firstName: string;
   lastName: string;
   phone: string;
+  solanaWallet?: string | null;
   status: UserStatus;
   providerId?: string | null;
   twoFactorEnabled: boolean;

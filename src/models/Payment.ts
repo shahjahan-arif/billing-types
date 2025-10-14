@@ -8,6 +8,8 @@ export interface Payment {
   billingRecordId: string;
   amount: number;
   paymentMethod: PaymentMethod;
+  blockchainNetwork?: string | null;
+  metadata?: Record<string, any> | null;
   transactionId?: string | null;
   proofUrl?: string | null;
   proofHash?: string | null;
