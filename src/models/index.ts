@@ -4,6 +4,7 @@ export * from './BillingRecord';
 export * from './Payment';
 export * from './EscrowReference';
 export * from './MikroTikUser';
+export * from './MikroTikRouter';
 export * from './Notification';
 export * from './Ticket';
 export * from './Equipment';

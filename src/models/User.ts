@@ -32,6 +32,7 @@ export interface CreateUserInput {
   phone: string;
   role: UserRole;
   providerId?: string;
+  status?: UserStatus;
 }
 
 // Update user input

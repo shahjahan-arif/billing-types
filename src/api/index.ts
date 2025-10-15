@@ -75,4 +75,11 @@ export type {
   // Audit Log
   AuditLogQuery,
   AuditLogResponse,
+  
+  // MikroTik Router
+  CreateMikroTikRouterInput,
+  UpdateMikroTikRouterInput,
+  TestRouterConnectionInput,
+  RouterListQuery,
+  RouterListResponse,
 } from '../models';

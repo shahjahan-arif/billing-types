@@ -43,3 +43,48 @@ export interface MikroTikActiveConnection {
   uptime: string;
   "caller-id": string;
 }
+
+/**
+ * MikroTik Router Status
+ */
+export enum MikroTikRouterStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  ERROR = 'ERROR',
+}
+
+/**
+ * MikroTik Router Model
+ * Database model for storing provider's router configurations
+ */
+export interface MikroTikRouter {
+  id: string;
+  providerId: string;
+  name: string;
+  host: string;
+  port: number;
+  username: string;
+  password: string; // Encrypted
+  status: MikroTikRouterStatus;
+  lastSync: Date;
+  lastError?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * MikroTik Router Public (without sensitive data)
+ */
+export interface MikroTikRouterPublic {
+  id: string;
+  providerId: string;
+  name: string;
+  host: string;
+  port: number;
+  username: string;
+  status: MikroTikRouterStatus;
+  lastSync: Date;
+  lastError?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
