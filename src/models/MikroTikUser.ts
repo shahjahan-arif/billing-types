@@ -9,6 +9,7 @@ export interface MikroTikUser {
   ipAddress?: string | null;
   macAddress?: string | null;
   profile: string;
+  monthlyRate: number;
   status: MikroTikStatus;
   lastSync: Date;
   createdAt: Date;
