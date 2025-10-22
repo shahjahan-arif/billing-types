@@ -28,6 +28,7 @@ export interface TicketMessage {
   message: string;
   attachmentUrl?: string | null;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface TicketMessageWithUser extends TicketMessage {

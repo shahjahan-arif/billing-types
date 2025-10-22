@@ -8,11 +8,9 @@ export interface Payment {
   billingRecordId: string;
   amount: number;
   paymentMethod: PaymentMethod;
-  blockchainNetwork?: string | null;
   metadata?: Record<string, any> | null;
   transactionId?: string | null;
   proofUrl?: string | null;
-  proofHash?: string | null;
   status: PaymentStatus;
   submittedAt: Date;
   verifiedAt?: Date | null;
@@ -72,4 +70,48 @@ export interface UploadUrlRequest {
 export interface UploadUrlResponse {
   uploadUrl: string;
   fileUrl: string;
+}
+
+// Provider payment list with filters
+export interface ProviderPaymentListQuery {
+  status?: PaymentStatus;
+  paymentMethod?: PaymentMethod;
+  customerId?: string;
+  billingMonth?: string;
+  startDate?: string;
+  endDate?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface ProviderPaymentListResponse {
+  payments: PaymentWithRelations[];
+  total: number;
+  page: number;
+  limit: number;
+  summary: {
+    totalAmount: number;
+    pendingCount: number;
+    verifiedCount: number;
+    rejectedCount: number;
+    pendingAmount: number;
+  };
+}
+
+// Update payment input
+export interface UpdatePaymentInput {
+  paymentId: string;
+  amount?: number;
+  status?: PaymentStatus;
+  notes?: string;
+  transactionId?: string;
+  proofUrl?: string;
+  rejectionReason?: string;
+  updateReason?: string;
+}
+
+export interface UpdatePaymentResponse {
+  payment: Payment;
+  billingRecord: BillingRecord;
+  message: string;
 }

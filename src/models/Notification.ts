@@ -13,6 +13,7 @@ export interface Notification {
   isRead?: boolean; // Computed property: true if readAt is not null
   metadata: Record<string, any> | null;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface CreateNotificationInput {

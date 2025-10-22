@@ -8,9 +8,6 @@ export interface User {
   firstName: string;
   lastName: string;
   phone: string;
-  mikrotikUsername?: string | null;
-  monthlyAmount?: number | null;
-  solanaWallet?: string | null;
   status: UserStatus;
   providerId?: string | null;
   twoFactorEnabled: boolean;
@@ -43,7 +40,6 @@ export interface UpdateUserInput {
   firstName?: string;
   lastName?: string;
   phone?: string;
-  monthlyAmount?: number;
   status?: UserStatus;
 }
 
