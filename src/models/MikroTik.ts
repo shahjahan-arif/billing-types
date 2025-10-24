@@ -180,6 +180,7 @@ export interface BulkImportResponse {
  */
 export interface UpdateCustomerInput {
   userId: string;
+  providerId: string;
   firstName: string;
   lastName: string;
   email: string;

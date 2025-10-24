@@ -56,6 +56,7 @@ types/
 │   │   ├── User.ts               # User types
 │   │   ├── BillingRecord.ts      # Billing types
 │   │   ├── Payment.ts            # Payment types
+│   │   ├── Subscription.ts       # Subscription types ⭐ NEW
 │   │   ├── MikroTik.ts           # MikroTik types
 │   │   ├── MikroTikRouter.ts     # Router types
 │   │   ├── MikroTikUser.ts       # MikroTik user types
@@ -640,6 +641,120 @@ export interface User {
 // Backend models, frontend components, etc.
 ```
 
+## Subscription Types
+
+### Overview
+
+Complete type definitions for subscription management system.
+
+### Types Defined
+
+**File**: `src/models/Subscription.ts`
+
+**Enums**:
+```typescript
+export enum ServiceType {
+  INTERNET = 'INTERNET',
+  CABLE_TV = 'CABLE_TV',
+  PHONE = 'PHONE',
+  OTHER = 'OTHER',
+}
+
+export enum SubscriptionStatus {
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  CANCELLED = 'CANCELLED',
+}
+```
+
+**Main Interface**:
+```typescript
+export interface Subscription {
+  id: string;
+  userId: string;
+  providerId: string;
+  packageId?: string;
+  monthlyRate: number;
+  serviceType: ServiceType;
+  startDate: Date;
+  endDate?: Date;
+  status: SubscriptionStatus;
+  notes?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+**Input Types**:
+```typescript
+export interface CreateSubscriptionInput {
+  userId: string;
+  monthlyRate: number;
+  serviceType: ServiceType;
+  packageId?: string;
+  notes?: string;
+}
+
+export interface UpdateSubscriptionRateInput {
+  subscriptionId: string;
+  monthlyRate: number;
+}
+
+export interface SubscriptionFilters {
+  userId?: string;
+  providerId?: string;
+  status?: SubscriptionStatus;
+  serviceType?: ServiceType;
+}
+```
+
+**Response Types**:
+```typescript
+export interface SubscriptionStats {
+  total: number;
+  active: number;
+  suspended: number;
+  cancelled: number;
+  monthlyRevenue: number;
+}
+
+export interface MonthlyTotalResponse {
+  userId: string;
+  monthlyTotal: number;
+}
+```
+
+### Usage
+
+```typescript
+import { 
+  Subscription, 
+  ServiceType, 
+  SubscriptionStatus,
+  CreateSubscriptionInput 
+} from '@billing-system/types';
+
+// Backend
+const subscription: Subscription = {
+  id: 'sub-123',
+  userId: 'user-123',
+  providerId: 'provider-123',
+  monthlyRate: 50.00,
+  serviceType: ServiceType.INTERNET,
+  status: SubscriptionStatus.ACTIVE,
+  startDate: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
+// Frontend
+const input: CreateSubscriptionInput = {
+  userId: 'user-123',
+  monthlyRate: 50.00,
+  serviceType: ServiceType.INTERNET,
+};
+```
+
 ## Summary
 
 This shared types package provides:
@@ -658,3 +773,7 @@ The package is organized by domain (models, enums, API types) and follows TypeSc
 **Version**: 1.0.0  
 **Module System**: CommonJS  
 **TypeScript**: 5.3+ (strict mode)
+
+### Recent Additions
+
+- ✅ **Subscription Types** (2025-10-22): Complete subscription management types including ServiceType enum, SubscriptionStatus enum, and all related interfaces
