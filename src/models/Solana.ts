@@ -61,6 +61,40 @@ export interface TokenInfo {
 }
 
 /**
+ * Supported token for payments
+ */
+export interface SupportedToken {
+  mint: string;
+  symbol: string;
+  name: string;
+  decimals: number;
+  icon?: string;
+  isActive: boolean;
+}
+
+/**
+ * Pending withdrawal information
+ */
+export interface PendingWithdrawal {
+  id: string;
+  escrowAddress: string;
+  escrowId: number;
+  amount: string;
+  tokenMint: string;
+  tokenSymbol: string;
+  usdAmount: number;
+  customerWallet: string;
+  providerWallet: string;
+  depositedAt: Date;
+  expiresAt: Date;
+  canWithdraw: boolean;
+  daysRemaining: number;
+  totalCryptoAmount: string;
+  totalUsdAmount: number;
+  escrowCount: number;
+}
+
+/**
  * Crypto amount calculation result
  */
 export interface CryptoAmountCalculation {
@@ -78,6 +112,7 @@ export interface PaymentInstructions {
   amount: string;
   tokenMint: string;
   instructions: string;
+  transaction: string;
   expiresAt: Date;
 }
 
