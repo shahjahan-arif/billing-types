@@ -15,3 +15,4 @@ export * from './Solana';
 export * from './Cache';
 export * from './MikroTik';
 export * from './Subscription';
+export * from './GroupMessage';
