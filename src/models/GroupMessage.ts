@@ -43,6 +43,7 @@ export interface CreateGroupMessageInput {
   message: string;
   type: NotificationType;
   channel: NotificationChannel;
+  expiresAt?: Date; // Optional - defaults to 24 days from now
 }
 
 /**

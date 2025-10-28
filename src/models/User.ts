@@ -107,6 +107,7 @@ export interface UpdateUnifiedCustomerInput {
     lastName?: string;
     email?: string;
     phone?: string;
+    password?: string; // Optional: Update customer password
     status?: UserStatus;
   };
   subscriptions?: Array<{

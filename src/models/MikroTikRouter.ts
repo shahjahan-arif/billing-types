@@ -26,6 +26,8 @@ export interface UpdateMikroTikRouterInput {
   username?: string;
   password?: string;
   status?: MikroTikRouterStatus;
+  lastSync?: Date;
+  lastError?: string | null;
 }
 
 /**

@@ -2,9 +2,11 @@
 
 ## Change Log
 
-| Date | Version | Description | Author |
-|------|---------|-------------|--------|
-| 2025-10-22 | 1.0 | Initial shared types architecture documentation | Winston (Architect) |
+| Date       | Version | Description                                                                      | Author              |
+| ---------- | ------- | -------------------------------------------------------------------------------- | ------------------- |
+| 2025-10-28 | 1.2     | Added GroupMessage and UserGroup types for messaging system                      | Kiro AI             |
+| 2025-10-28 | 1.1     | Added password field to UpdateUnifiedCustomerInput for customer password updates | Kiro AI             |
+| 2025-10-22 | 1.0     | Initial shared types architecture documentation                                  | Winston (Architect) |
 
 ## Overview
 
@@ -31,13 +33,13 @@ Shared TypeScript types package for the Billing Management System monorepo. Prov
 
 ### Technology Stack Table
 
-| Category | Technology | Version | Purpose | Rationale |
-|----------|-----------|---------|---------|-----------|
-| **Language** | TypeScript | 5.3+ | Type definitions | Industry standard for type safety |
-| **Build Tool** | tsc | 5.3+ | TypeScript compiler | Official TypeScript compiler |
-| **Package Manager** | pnpm | 8+ | Workspace management | Fast, efficient, monorepo support |
-| **Module System** | CommonJS | - | Module format | Compatible with Node.js backend |
-| **Declaration Files** | .d.ts | - | Type declarations | Enables type checking in consumers |
+| Category              | Technology | Version | Purpose              | Rationale                          |
+| --------------------- | ---------- | ------- | -------------------- | ---------------------------------- |
+| **Language**          | TypeScript | 5.3+    | Type definitions     | Industry standard for type safety  |
+| **Build Tool**        | tsc        | 5.3+    | TypeScript compiler  | Official TypeScript compiler       |
+| **Package Manager**   | pnpm       | 8+      | Workspace management | Fast, efficient, monorepo support  |
+| **Module System**     | CommonJS   | -       | Module format        | Compatible with Node.js backend    |
+| **Declaration Files** | .d.ts      | -       | Type declarations    | Enables type checking in consumers |
 
 ### Key Architectural Decisions
 
@@ -68,7 +70,8 @@ types/
 │   │   ├── EscrowReference.ts    # Escrow tracking types
 │   │   ├── AuditLog.ts           # Audit log types
 │   │   ├── Analytics.ts          # Analytics types
-│   │   ├── UserGroup.ts          # User group types
+│   │   ├── UserGroup.ts          # User group types ⭐
+│   │   ├── GroupMessage.ts       # Group messaging types ⭐ NEW
 │   │   ├── Cache.ts              # Cache types
 │   │   └── index.ts              # Model exports
 │   │
@@ -124,7 +127,7 @@ types/
 
 ```typescript
 // models/User.ts
-import { UserRole, UserStatus } from '../enums';
+import { UserRole, UserStatus } from "../enums";
 
 export interface User {
   id: string;
@@ -149,7 +152,8 @@ export interface User {
 }
 
 // Public user (without sensitive fields)
-export interface UserPublic extends Omit<User, 'password' | 'twoFactorSecret' | 'resetToken'> {}
+export interface UserPublic
+  extends Omit<User, "password" | "twoFactorSecret" | "resetToken"> {}
 
 // Create user input
 export interface CreateUserInput {
@@ -175,6 +179,7 @@ export interface UpdateUserInput {
 ```
 
 **Pattern**:
+
 - Base interface (full entity)
 - Public interface (without sensitive fields)
 - Create input (required fields for creation)
@@ -189,21 +194,22 @@ export interface UpdateUserInput {
 ```typescript
 // enums/UserRole.ts
 export enum UserRole {
-  ADMIN = 'ADMIN',
-  PROVIDER = 'PROVIDER',
-  CUSTOMER = 'CUSTOMER',
+  ADMIN = "ADMIN",
+  PROVIDER = "PROVIDER",
+  CUSTOMER = "CUSTOMER",
 }
 
 export enum UserStatus {
-  PENDING = 'PENDING',
-  ACTIVE = 'ACTIVE',
-  SUSPENDED = 'SUSPENDED',
-  INACTIVE = 'INACTIVE',
-  REJECTED = 'REJECTED',
+  PENDING = "PENDING",
+  ACTIVE = "ACTIVE",
+  SUSPENDED = "SUSPENDED",
+  INACTIVE = "INACTIVE",
+  REJECTED = "REJECTED",
 }
 ```
 
 **Available Enums**:
+
 - `UserRole` - ADMIN, PROVIDER, CUSTOMER
 - `UserStatus` - PENDING, ACTIVE, SUSPENDED, INACTIVE, REJECTED
 - `PaymentStatus` - PENDING, COMPLETED, FAILED, REFUNDED
@@ -282,7 +288,7 @@ export interface PaginationParams {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
 }
 
 export interface PaginationMeta {
@@ -301,8 +307,8 @@ export interface PaginationMeta {
 
 ```typescript
 // backend/src/models/User.ts
-import { Model, DataTypes } from 'sequelize';
-import { User as IUser, UserRole, UserStatus } from '@billing-system/types';
+import { Model, DataTypes } from "sequelize";
+import { User as IUser, UserRole, UserStatus } from "@billing-system/types";
 
 export class User extends Model<IUser> implements IUser {
   declare id: string;
@@ -331,7 +337,7 @@ User.init(
     },
     // ... other fields
   },
-  { sequelize, tableName: 'users' }
+  { sequelize, tableName: "users" }
 );
 ```
 
@@ -364,8 +370,8 @@ export function UserList({ users }: UserListProps) {
 
 ```typescript
 // frontend/lib/trpc.ts
-import { createTRPCReact } from '@trpc/react-query';
-import type { AppRouter } from '@billing-system/types';
+import { createTRPCReact } from "@trpc/react-query";
+import type { AppRouter } from "@billing-system/types";
 
 export const trpc = createTRPCReact<AppRouter>();
 
@@ -381,15 +387,16 @@ const { data: users } = trpc.user.list.useQuery();
 ```yaml
 # pnpm-workspace.yaml (root)
 packages:
-  - 'frontend'
-  - 'backend'
-  - 'solana-contract'
-  - 'types'
+  - "frontend"
+  - "backend"
+  - "solana-contract"
+  - "types"
 ```
 
 ### Package Dependencies
 
 **Backend package.json**:
+
 ```json
 {
   "dependencies": {
@@ -399,6 +406,7 @@ packages:
 ```
 
 **Frontend package.json**:
+
 ```json
 {
   "dependencies": {
@@ -437,12 +445,14 @@ pnpm clean
 ### Adding New Types
 
 1. **Create type file**:
+
    ```bash
    # Create new model
    touch src/models/NewModel.ts
    ```
 
 2. **Define types**:
+
    ```typescript
    // src/models/NewModel.ts
    export interface NewModel {
@@ -457,19 +467,21 @@ pnpm clean
    ```
 
 3. **Export from index**:
+
    ```typescript
    // src/models/index.ts
-   export * from './NewModel';
+   export * from "./NewModel";
    ```
 
 4. **Rebuild**:
+
    ```bash
    pnpm build
    ```
 
 5. **Use in other packages**:
    ```typescript
-   import { NewModel } from '@billing-system/types';
+   import { NewModel } from "@billing-system/types";
    ```
 
 ### Type Changes
@@ -490,11 +502,11 @@ When modifying types:
     "target": "ES2020",
     "module": "commonjs",
     "lib": ["ES2020"],
-    "declaration": true,           // Generate .d.ts files
-    "declarationMap": true,        // Generate .d.ts.map files
+    "declaration": true, // Generate .d.ts files
+    "declarationMap": true, // Generate .d.ts.map files
     "outDir": "./dist",
     "rootDir": "./src",
-    "strict": true,                // Enable all strict checks
+    "strict": true, // Enable all strict checks
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -520,28 +532,27 @@ When modifying types:
 
 ```typescript
 // ✅ Good: Organized by domain
-models/
-  User.ts
-  Payment.ts
-  BillingRecord.ts
+models / User.ts;
+Payment.ts;
+BillingRecord.ts;
 
 // ❌ Bad: All types in one file
-types.ts
+types.ts;
 ```
 
 ### 2. Naming Conventions
 
 ```typescript
 // ✅ Good: Clear, descriptive names
-export interface User { }
-export interface CreateUserInput { }
-export interface UpdateUserInput { }
-export interface UserPublic { }
+export interface User {}
+export interface CreateUserInput {}
+export interface UpdateUserInput {}
+export interface UserPublic {}
 
 // ❌ Bad: Unclear names
-export interface UserData { }
-export interface UserDTO { }
-export interface UserModel { }
+export interface UserData {}
+export interface UserDTO {}
+export interface UserModel {}
 ```
 
 ### 3. Optional vs Required
@@ -549,17 +560,17 @@ export interface UserModel { }
 ```typescript
 // ✅ Good: Clear optionality
 export interface User {
-  id: string;                    // Required
-  email: string;                 // Required
-  phone?: string;                // Optional
-  lastLoginAt?: Date | null;     // Optional, can be null
+  id: string; // Required
+  email: string; // Required
+  phone?: string; // Optional
+  lastLoginAt?: Date | null; // Optional, can be null
 }
 
 // ❌ Bad: Unclear optionality
 export interface User {
   id: string;
   email: string;
-  phone: string | undefined;     // Use ? instead
+  phone: string | undefined; // Use ? instead
 }
 ```
 
@@ -568,9 +579,9 @@ export interface User {
 ```typescript
 // ✅ Good: String enums
 export enum UserRole {
-  ADMIN = 'ADMIN',
-  PROVIDER = 'PROVIDER',
-  CUSTOMER = 'CUSTOMER',
+  ADMIN = "ADMIN",
+  PROVIDER = "PROVIDER",
+  CUSTOMER = "CUSTOMER",
 }
 
 // ❌ Bad: Numeric enums (harder to debug)
@@ -592,7 +603,7 @@ export interface User {
   // ... other fields
 }
 
-export interface UserPublic extends Omit<User, 'password'> {}
+export interface UserPublic extends Omit<User, "password"> {}
 
 // ❌ Bad: Duplicate definitions
 export interface UserPublic {
@@ -652,22 +663,24 @@ Complete type definitions for subscription management system.
 **File**: `src/models/Subscription.ts`
 
 **Enums**:
+
 ```typescript
 export enum ServiceType {
-  INTERNET = 'INTERNET',
-  CABLE_TV = 'CABLE_TV',
-  PHONE = 'PHONE',
-  OTHER = 'OTHER',
+  INTERNET = "INTERNET",
+  CABLE_TV = "CABLE_TV",
+  PHONE = "PHONE",
+  OTHER = "OTHER",
 }
 
 export enum SubscriptionStatus {
-  ACTIVE = 'ACTIVE',
-  SUSPENDED = 'SUSPENDED',
-  CANCELLED = 'CANCELLED',
+  ACTIVE = "ACTIVE",
+  SUSPENDED = "SUSPENDED",
+  CANCELLED = "CANCELLED",
 }
 ```
 
 **Main Interface**:
+
 ```typescript
 export interface Subscription {
   id: string;
@@ -686,6 +699,7 @@ export interface Subscription {
 ```
 
 **Input Types**:
+
 ```typescript
 export interface CreateSubscriptionInput {
   userId: string;
@@ -709,6 +723,7 @@ export interface SubscriptionFilters {
 ```
 
 **Response Types**:
+
 ```typescript
 export interface SubscriptionStats {
   total: number;
@@ -727,19 +742,19 @@ export interface MonthlyTotalResponse {
 ### Usage
 
 ```typescript
-import { 
-  Subscription, 
-  ServiceType, 
+import {
+  Subscription,
+  ServiceType,
   SubscriptionStatus,
-  CreateSubscriptionInput 
-} from '@billing-system/types';
+  CreateSubscriptionInput,
+} from "@billing-system/types";
 
 // Backend
 const subscription: Subscription = {
-  id: 'sub-123',
-  userId: 'user-123',
-  providerId: 'provider-123',
-  monthlyRate: 50.00,
+  id: "sub-123",
+  userId: "user-123",
+  providerId: "provider-123",
+  monthlyRate: 50.0,
   serviceType: ServiceType.INTERNET,
   status: SubscriptionStatus.ACTIVE,
   startDate: new Date(),
@@ -749,8 +764,8 @@ const subscription: Subscription = {
 
 // Frontend
 const input: CreateSubscriptionInput = {
-  userId: 'user-123',
-  monthlyRate: 50.00,
+  userId: "user-123",
+  monthlyRate: 50.0,
   serviceType: ServiceType.INTERNET,
 };
 ```
@@ -776,4 +791,173 @@ The package is organized by domain (models, enums, API types) and follows TypeSc
 
 ### Recent Additions
 
+- ✅ **Group Messaging Types** (2025-10-28): Added GroupMessage and UserGroup types for messaging system
+- ✅ **Customer Password Update** (2025-10-28): Added optional `password` field to `UpdateUnifiedCustomerInput.customerInfo` for provider-initiated password updates
 - ✅ **Subscription Types** (2025-10-22): Complete subscription management types including ServiceType enum, SubscriptionStatus enum, and all related interfaces
+
+### Type Updates (2025-10-28)
+
+**UpdateUnifiedCustomerInput Enhancement**:
+
+```typescript
+export interface UpdateUnifiedCustomerInput {
+  customerId: string;
+  customerInfo?: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    password?: string; // ⭐ NEW: Optional password update
+    status?: UserStatus;
+  };
+  // ... rest of interface
+}
+```
+
+**Usage**:
+
+- Provider can update customer password via unified update
+- Password is optional (leave empty to keep current)
+- Backend hashes with bcrypt (10 rounds) before storage
+- Frontend shows password field with show/hide toggle
+
+## Group Messaging Types ⭐ NEW (2025-10-28)
+
+### Overview
+
+Complete type definitions for group messaging system with 24-day message retention.
+
+### Types Defined
+
+**File**: `src/models/GroupMessage.ts`
+
+**Main Interfaces**:
+
+```typescript
+export interface GroupMessage {
+  id: string;
+  groupId: string | null;
+  recipientId: string | null;
+  senderId: string;
+  title: string;
+  message: string;
+  createdAt: Date;
+}
+
+export interface GroupMessageWithSender extends GroupMessage {
+  sender: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+}
+
+export interface CreateGroupMessageInput {
+  groupId?: string;
+  recipientId?: string;
+  title: string;
+  message: string;
+}
+
+export interface GroupMessageFilters {
+  groupId?: string;
+  recipientId?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+```
+
+**File**: `src/models/UserGroup.ts`
+
+**Main Interfaces**:
+
+```typescript
+export interface UserGroup {
+  id: string;
+  providerId: string;
+  name: string;
+  description?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface UserGroupWithMembers extends UserGroup {
+  members: UserPublic[];
+  memberCount: number;
+}
+
+export interface UserGroupMember {
+  id: string;
+  userId: string;
+  groupId: string;
+  addedAt: Date;
+}
+
+export interface CreateUserGroupInput {
+  name: string;
+  description?: string;
+  memberIds?: string[];
+}
+
+export interface UpdateUserGroupInput {
+  name?: string;
+  description?: string;
+}
+
+export interface UserGroupListResponse {
+  groups: UserGroup[];
+  total: number;
+  page: number;
+  limit: number;
+}
+```
+
+### Usage
+
+```typescript
+import {
+  GroupMessage,
+  GroupMessageWithSender,
+  CreateGroupMessageInput,
+  UserGroup,
+  UserGroupWithMembers,
+  CreateUserGroupInput,
+} from "@billing-system/types";
+
+// Backend - Create group
+const group: UserGroup = {
+  id: "group-123",
+  providerId: "provider-123",
+  name: "VIP Customers",
+  description: "Premium customers group",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
+// Backend - Send message
+const message: GroupMessage = {
+  id: "msg-123",
+  groupId: "group-123",
+  recipientId: null,
+  senderId: "provider-123",
+  title: "Service Update",
+  message: "We will be performing maintenance...",
+  createdAt: new Date(),
+};
+
+// Frontend - Create group input
+const input: CreateUserGroupInput = {
+  name: "New Customers",
+  description: "Recently added customers",
+  memberIds: ["user-1", "user-2", "user-3"],
+};
+```
+
+### Key Features
+
+- **Dual Mode**: Support for group messages and private messages
+- **24-Day Retention**: Messages auto-expire after 24 days
+- **Sender Information**: Extended interface with sender details
+- **Flexible Filtering**: Filter by group, recipient, or date range
+- **Member Management**: Add/remove members from groups
