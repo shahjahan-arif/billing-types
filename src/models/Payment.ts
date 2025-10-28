@@ -115,3 +115,12 @@ export interface UpdatePaymentResponse {
   billingRecord: BillingRecord;
   message: string;
 }
+
+export interface SubmitPaymentForCustomerInput {
+  customerId: string;
+  billingRecordId: string;
+  amount: number;
+  paymentMethod: PaymentMethod;
+  transactionId?: string;
+  notes?: string;
+}

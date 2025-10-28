@@ -176,3 +176,14 @@ export interface CustomerListResponse {
   count: number;
   totalPages: number;
 }
+
+/**
+ * Customer statistics response
+ * Used for customer dashboard stats
+ */
+export interface CustomerStatsResponse {
+  totalPendingAmount: number; // Total accumulated unpaid balance
+  currentStatus: UserStatus; // Customer account status
+  currentBillDueDate: Date | null; // Current month bill due date
+  monthlyAmount: number; // Regular monthly subscription amount
+}

@@ -43,3 +43,9 @@ export interface BillingRecordListResponse {
   page: number;
   limit: number;
 }
+
+export interface GenerateProviderBillsResponse {
+  generated: number;
+  bills: BillingRecord[];
+  message: string;
+}
