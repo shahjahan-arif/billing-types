@@ -1,0 +1,13 @@
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  PROVIDER = 'PROVIDER',
+  CUSTOMER = 'CUSTOMER',
+}
+
+export enum UserStatus {
+  PENDING = 'PENDING',
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  INACTIVE = 'INACTIVE',
+  REJECTED = 'REJECTED',
+}

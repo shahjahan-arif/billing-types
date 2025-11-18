@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# NPM configuration files (contain tokens)
+.npmrc.local
+.npmrc.publish
