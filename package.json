@@ -1,6 +1,6 @@
 {
-  "name": "@billing-system/types",
-  "version": "1.0.0",
+  "name": "@shahjahan-arif/billing-types",
+  "version": "1.0.1",
   "description": "Shared TypeScript types for Billing Management System",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

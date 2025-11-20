@@ -11,6 +11,13 @@ export interface Ticket {
   status: TicketStatus;
   category: TicketCategory;
   resolvedAt?: Date | null;
+  metadata?: {
+    equipmentId?: string;
+    equipmentName?: string;
+    equipmentModel?: string;
+    issueType?: string;
+    [key: string]: any;
+  } | null;
   createdAt: Date;
   updatedAt: Date;
 }
