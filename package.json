@@ -1,6 +1,6 @@
 {
   "name": "@shahjahan-arif/billing-types",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Shared TypeScript types for Billing Management System",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "@trpc/server": "^11.6.0",
+    "minimatch": "^9.0.0",
     "typescript": "^5.3.0"
   },
   "files": [
