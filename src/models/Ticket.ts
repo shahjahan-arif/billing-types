@@ -47,6 +47,13 @@ export interface CreateTicketInput {
   description: string;
   priority: TicketPriority;
   category: TicketCategory;
+  metadata?: {
+    equipmentId?: string;
+    equipmentName?: string;
+    equipmentModel?: string;
+    issueType?: string;
+    [key: string]: any;
+  } | null;
 }
 
 export interface UpdateTicketStatusInput {
