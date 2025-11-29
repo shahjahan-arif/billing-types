@@ -25,3 +25,4 @@ export * from './PartnerEarnings';
 export * from './PartnerAnalytics';
 export * from './PartnerDashboard';
 export * from './Currency';
+export * from './Email';

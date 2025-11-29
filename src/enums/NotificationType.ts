@@ -15,6 +15,8 @@ export enum NotificationType {
   PARTNER_WELCOME = 'PARTNER_WELCOME',
   EARNINGS_ALERT = 'EARNINGS_ALERT',
   PARTNERSHIP_STATUS_CHANGE = 'PARTNERSHIP_STATUS_CHANGE',
+  // Email management
+  EMAIL_SUBMITTED = 'EMAIL_SUBMITTED',
 }
 
 export enum NotificationChannel {
