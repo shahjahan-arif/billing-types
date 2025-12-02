@@ -1,4 +1,4 @@
-# @billing-system/types
+# @mikromanage/types
 
 Shared TypeScript types for Billing Management & Notification System.
 
@@ -13,10 +13,10 @@ pnpm build
 pnpm link
 
 # In backend directory
-pnpm link @billing-system/types
+pnpm link @mikromanage/types
 
 # In frontend directory
-pnpm link @billing-system/types
+pnpm link @mikromanage/types
 ```
 
 ### Using pnpm Workspace
@@ -33,7 +33,7 @@ Then in backend/frontend package.json:
 ```json
 {
   "dependencies": {
-    "@billing-system/types": "workspace:*"
+    "@mikromanage/types": "workspace:*"
   }
 }
 ```
@@ -43,7 +43,7 @@ Then in backend/frontend package.json:
 ### Backend
 
 ```typescript
-import { User, UserRole, CreateUserInput } from '@billing-system/types';
+import { User, UserRole, CreateUserInput } from '@mikromanage/types';
 
 export class UserModel extends Model implements User {
   declare id: string;
@@ -55,7 +55,7 @@ export class UserModel extends Model implements User {
 ### Frontend
 
 ```typescript
-import { User, UserRole, PaymentStatus } from '@billing-system/types';
+import { User, UserRole, PaymentStatus } from '@mikromanage/types';
 
 interface UserListProps {
   users: User[];
