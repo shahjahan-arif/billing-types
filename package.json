@@ -1,7 +1,7 @@
 {
   "name": "@shahjahan-arif/mikromanage-types",
-  "version": "1.0.5",
-  "description": "Shared TypeScript types for Billing Management System",
+  "version": "1.0.6",
+  "description": "Shared TypeScript types for Mikromanage",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
@@ -16,6 +16,8 @@
   "keywords": [
     "typescript",
     "types",
+    "mikromanage",
+    "isp",
     "billing",
     "shared"
   ],
